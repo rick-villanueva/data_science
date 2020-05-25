@@ -20,6 +20,7 @@ def random_walk(n):
         x += dx
         y += dy
     return (x,y)
+
 # Monte Carlo simulation
 number_of_walks = 10000
 
