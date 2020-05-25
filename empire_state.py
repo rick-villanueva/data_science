@@ -7,21 +7,24 @@ I will be higher than floor 60?
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+from scipy import optimize as opt
+from scipy import stats as ss
+from scipy.stats import norm
 
 # Set the seed
 np.random.seed(123)
 
 # Simulate random walk 
 all_walks = []
-for i in range(1000) :
+for i in range(1000):
     random_walk = [0]
-    for x in range(100) :
+    for x in range(100):
         step = random_walk[-1]
         dice = np.random.randint(1,7)
         if dice <= 2:
             step = max(0, step - 1)
-        elif dice <= 5:
+        elif dice > 2 and dice < 6:
             step = step + 1
         else:
             step = step + np.random.randint(1,7)
@@ -37,9 +40,17 @@ np_aw_t = np.transpose(np.array(all_walks))
 ends = np_aw_t[-1,:]
 
 # Plot histogram of ends, display plot
+# bins = [10,20,30,40,50,60,70,80,90,100]
 plt.hist(ends,bins=10,edgecolor='k',alpha=0.65)
+plt.axvline(np.median(ends), color='k', linestyle='dashed', linewidth=1)
+# Fit a normal distribution to the data:
+# mu, std = norm.fit(ends)
+# xmin, xmax = plt.xlim()
+# x = np.linspace(xmin, xmax, 100)
+# p = norm.pdf(x, mu, std)
+# plt.plot(x, p, 'k', linewidth=2)
+
 plt.style.use('fivethirtyeight')
 plt.xlabel("Floor")
 plt.ylabel("# of times in floor")
 plt.show()
-
